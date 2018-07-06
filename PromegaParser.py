@@ -27,7 +27,7 @@ def main(file_locations, output_directory, verbose):
 
     try:
         if verbose:
-            print('Creating directory: {}...'.format(str(output_directory.absolute())))
+            print('Creating directory: {}...'.format(output_directory.absolute()))
         output_directory.mkdir(parents=True)
         if verbose:
             print('Success!')
@@ -38,7 +38,7 @@ def main(file_locations, output_directory, verbose):
         outdir = output_directory / floc.stem.replace(' ', '_')
         try:
             if verbose:
-                print('Creating directory: {}...'.format(str(floc)))
+                print('Creating directory: {}...'.format(floc))
             outdir.mkdir(parents=True)
             if verbose:
                 print('Success!')
@@ -54,7 +54,7 @@ def main(file_locations, output_directory, verbose):
                 if line.startswith('Protocol'):
                     prot_filename = outdir / 'Protocol_Description.txt'
                     if verbose:
-                        print('Found Protocol Description! Writing to file {}'.format(str(prot_filename)))
+                        print('Found Protocol Description! Writing to file {}'.format(prot_filename))
                     prot_filename.touch()
                     f_out = prot_filename.open('w+')
                     f_out.write(line)
@@ -116,8 +116,11 @@ def main(file_locations, output_directory, verbose):
                 else:
                     if verbose:
                         print('** Skipping this line, not saving it:', line.strip('\n'), end=' **\n')
-            if verbose:
-                print('Finished!')
+        if verbose:
+            print("Finished spliiting file {0}, moving it inside directory {1}!".format(floc.name, outdir))
+        floc.rename(outdir/floc.name)
+    if verbose:
+        print('Finished!')
 
 
 if __name__=='__main__':
